@@ -1,5 +1,5 @@
 // PentoMAX offline cache: the game shell and the three.js library are cached after the first visit.
-const CACHE = 'pentomax-v5';
+const CACHE = 'pentomax-v8';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
