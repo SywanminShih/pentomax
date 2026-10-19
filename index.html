@@ -29,10 +29,10 @@
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%;background:var(--bg);color:var(--fg);overflow:hidden}
 body{font-family:var(--f-body);font-size:13px;line-height:1.4;padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px));padding-block:8px}
-.app{height:100%;max-width:1500px;margin:0 auto;display:grid;gap:8px;grid-template-rows:auto minmax(0,1.1fr) minmax(0,.85fr) minmax(0,1.05fr) auto;grid-template-areas:"head" "view" "tray" "side" "bar"}
+.app{height:100%;max-width:1500px;margin:0 auto;display:grid;gap:8px;grid-template-rows:auto minmax(0,1.1fr) minmax(0,.85fr) auto minmax(0,1.05fr) auto;grid-template-areas:"head" "view" "tray" "ctrl" "side" "bar"}
 .app>*,.play>*{min-width:0;min-height:0}
 @media (min-width:900px){
-  .app{grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr) minmax(0,.9fr);grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"head head head" "view tray side" "bar bar bar"}
+  .app{grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr) minmax(0,.9fr);grid-template-rows:auto minmax(0,1fr) auto auto;grid-template-areas:"head head head" "view tray side" "view ctrl side" "bar bar bar"}
 }
 button{font-family:var(--f-display);font-weight:600;letter-spacing:.05em;cursor:pointer;color:var(--fg);background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;white-space:nowrap}
 button:hover{border-color:var(--muted)}
@@ -95,7 +95,10 @@ header{grid-area:head;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14p
 
 /* control bar */
 .bar{grid-area:bar;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:6px 10px}
-.bar .grp{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.ctrl{grid-area:ctrl;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;border:1px solid var(--accent);background:var(--panel);border-radius:14px;padding:8px 10px}
+.ctrl #orient{flex-basis:100%;text-align:center}
+.ctrl button{padding:7px 13px;font-size:13px}
+.lvgrp{display:flex;align-items:center;justify-content:center;gap:8px;flex-basis:100%}
 .lbl{font-family:var(--f-display);letter-spacing:.12em;font-size:11px;color:var(--muted)}
 .lbl b{color:var(--fg);font-variant-numeric:tabular-nums}
 .msg{font-size:12.5px;flex:1 1 220px;min-width:0}
@@ -145,6 +148,14 @@ pre{margin:0;overflow-x:auto;font-family:var(--f-mono);font-size:12px;line-heigh
 
   <div class="tray" id="tray" aria-label="Pieces to place"></div>
 
+  <div class="ctrl" aria-label="Turn and level the selected piece">
+      <span class="lbl" id="orient">—</span>
+      <button id="rz">⟲ Z <small class="k">Q</small></button>
+      <button id="rx">⟳ X <small class="k">E</small></button>
+      <button id="ry">⟳ Y <small class="k">R</small></button>
+      <span class="lvgrp"><span class="lbl">LEVEL</span><button id="lvdown" class="round" aria-label="Lower level">▼</button><span class="lbl"><b id="lvl">z0</b></span><button id="lvup" class="round" aria-label="Higher level">▲</button></span>
+    </div>
+
   <div class="play">
     <div class="view">
       <h2 class="ptitle vtitle">3D BOX VIEW<small>FINISHED BOX · DRAG TO TURN</small></h2>
@@ -163,13 +174,6 @@ pre{margin:0;overflow-x:auto;font-family:var(--f-mono);font-size:12px;line-heigh
   </div>
 
   <div class="bar" role="status">
-    <div class="grp">
-      <span class="lbl" id="orient">—</span>
-      <button id="rz">⟲ Z <small class="k">Q</small></button>
-      <button id="rx">⟳ X <small class="k">E</small></button>
-      <button id="ry">⟳ Y <small class="k">R</small></button>
-      <span class="lbl">LEVEL</span><button id="lvdown" class="round" aria-label="Lower level">▼</button><span class="lbl"><b id="lvl">z0</b></span><button id="lvup" class="round" aria-label="Higher level">▲</button>
-    </div>
     <div class="msg" id="msg">Pick a piece, turn it, then tap the board to place it.</div>
     <button class="pill" id="solv" title="Ask the AI if the box can still be finished. Costs 5 points.">AI CHECK · −5</button>
   </div>
